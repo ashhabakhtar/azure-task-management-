@@ -1,0 +1,69 @@
+is it possible  to integrate this with microsoft teams ?
+
+
+Yes, it is absolutely possible! In fact, integrating custom applications with Microsoft Teams is a very common scenario.
+
+Depending on what exactly you want the system to do, there are three different levels of integration we could build:
+
+1. Channel Notifications (Easiest)
+We can use Teams Incoming Webhooks. Whenever an Admin assigns a new task (or heavily updates an existing one), your PHP backend can automatically send a rich notification card directly to a specific Microsoft Teams Channel.
+
+Example: "A new High Priority task 'Update Homepage' has been assigned to Username. Due Date: Tomorrow."
+Requirements: Takes about 10 minutes to set up. You just need to create a Webhook URL in your Teams Channel settings, and I can write a small PHP cURL script to send data there.
+
+2. Single Sign-On (SSO)
+Instead of typing admin123, users can click a "Login with Microsoft" button. This ensures that only authorized people in your company's Microsoft 365 tenant can access the dashboard.
+
+Requirements: You would need to register the app in your Microsoft Azure Active Directory (Entra ID) to get API keys.
+3. Two-Way Teams Bot (Advanced)
+A custom Teams Bot where users can type Show my pending tasks directly in the Teams chat, or click an "Update to Completed" button inside the Teams chat without even opening your website.
+
+Requirements: This requires hosting the application on a public server with SSL (HTTPS) and configuring an Azure Bot Service.
+If you'd like to do the first option (Sending notifications to a Teams Channel when a task is created), we can do that right now! You just need to go into your Teams Channel, add an "Incoming Webhook" connector, and give me the URL it provides.
+
+can this work with no money ?
+
+
+Yes, absolutely! It can be done for $0.
+
+As long as your company already uses Microsoft Teams (meaning you have standard Office 365 accounts), Microsoft doesn't charge you extra to integrate your own internal tools.
+
+Here is how the free cost breakdown works for the options:
+
+1. Channel Notifications (100% Free & Simplest) Microsoft allows you to create Incoming Webhooks for free directly inside your Teams app. It simply generates a unique URL for your channel. Our PHP app (running for free on your local XAMPP or any free server) just sends an internet message to that URL. No credit card, no subscriptions required.
+
+2. Single Sign-On / Bots (Also Free, but requires setup) If you want the advanced options (Logging in with Microsoft, or a Two-Way Bot), you can use the Free Tier of Microsoft Entra ID (Azure Active Directory). They give you free access to register internal apps and use their Bot Framework for basic internal usage.
+
+The only catch for the advanced Bot: Microsoft Teams bots require your application to be online with a secure https:// link so Teams can securely talk to it. Since you are currently running it locally on your own computer (http://localhost), you would just need to use a free tool like Cloudflare Tunnels or Ngrok to create a free secure web link to your PC, or upload it to a free web host like InfinityFree.
+
+If you just want the Channel Notifications to trigger when you create a new task, we don't even need that—it will work for free, right now, directly from your computer! Let me know if you want to set that up.
+
+
+CAN WE INTEGRATE MICROSOFT TEAMS WITH PAKKAdesK!?
+
+
+To integrate PAKKAdesK with Microsoft Teams, you will act as the "Bridge" between Microsoft and the codebase. Since I cannot log into your Pakka Limited company account, you will need to grab a few keys from Microsoft Teams, hand them to me, and I will write the PHP code to connect them!
+
+Here is exactly how we will do this, starting with the most popular feature: Automatic Channel Notifications.
+
+🛠️ Step 1: Set up a Teams Webhook (For Notifications)
+This will allow our PHP code to automatically send a message to a Teams group chat whenever you create a new Task.
+
+Open Microsoft Teams and go to the Channel where you want task notifications to appear (e.g., a "Development" or "General" channel).
+Click the three dots (...) next to the channel name and select Workflows (or "Connectors" if you are on an older version of Teams).
+Search for Incoming Webhook and click Add.
+Give it a name like "PAKKAdesK Bot" and upload a nice logo if you want.
+Click Create. Microsoft will generate a long URL Link.
+Copy that URL and paste it here in our chat.
+Once you give me that URL, I will update admin/create_task.php so that every time you click "Assign Task", it uses PHP cURL to fire a message directly into your Teams channel!
+
+🔐 Step 2: Single Sign-On (Login with Microsoft)
+If you want users to log in clicking a "Microsoft" button instead of typing passwords, you need to register the app in your company's Azure portal:
+
+Go to portal.azure.com and sign in with your Pakka Limited email.
+Search for Microsoft Entra ID (formerly Azure Active Directory).
+On the left menu, click App registrations ➔ New registration.
+Name it "PAKKAdesK". Under "Redirect URI", put http://localhost/task_manager/auth.php (for now) and click Register.
+Once created, you will see an Application (client) ID and a Directory (tenant) ID. Copy both of them.
+Go to Certificates & secrets on the left menu, create a "New client secret", and copy the Secret Value.
+If you share those three keys with me (Client ID, Tenant ID, and Secret), I will completely rewrite our auth.php and index.php files to communicate securely with Microsoft's servers so you can log in with your company email.
